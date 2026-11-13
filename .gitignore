@@ -1,0 +1,25 @@
+src/main/resources/config.properties
+config.properties
+
+base.sql
+target/
+*.class
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Documentacion y archivos temporales
+docu/
+*.docx
+*.bak
+*.eap
+generar_doc_*.py
+insertar_mapeo_*.py
+
+

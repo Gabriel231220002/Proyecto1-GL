@@ -1,0 +1,178 @@
+================================================================================
+  PRUEBA DE FLUJO COMPLETO - SISTEMA DE GESTIÓN DE LABORATORIOS (EMAIL)
+================================================================================
+Enviar cada comando en el ASUNTO (Subject) de un email individual.
+Servidor POP/SMTP: mail.tecnoweb.org.bo | Cuenta: grupo08sc@tecnoweb.org.bo
+(El sistema acepta sintaxis singular y plural: USUARIO/USUARIOS, ITEM/ITEMS, etc.)
+
+================================================================================
+0. CONSULTAR AYUDA GENERAL
+================================================================================
+HELP
+
+================================================================================
+CU1. GESTIÓN DE USUARIOS Y PRIVILEGIOS
+================================================================================
+-- 1. Listar usuarios existentes:
+LISTARUSUARIOS[*]
+
+-- 2. Registrar nuevo auxiliar de laboratorio:
+CREATEUSUARIOS[Mario, Gutierrez, Pinto, M, 8877665, 2001-09-15, 77001122, Auxiliar, mgutierrez@uagrm.edu.bo, 12345678, 2200551]
+
+-- 3. Consultar usuario por ID (Mateo Mendoza - Auxiliar):
+GETUSUARIOS[4]
+
+-- 4. Actualizar datos de usuario (contacto de Mateo Mendoza):
+UPDATEUSUARIOS[4, Mateo, Mendoza, Flores, 1000004, 75544332, Auxiliar, auxiliar.mateo@uagrm.edu.bo]
+
+-- 5. Listar privilegios del sistema:
+LISTARPRIVILEGIOS[*]
+
+-- 6. Asignar privilegio a usuario (PRIV_RESERVA al usuario 4):
+ASIGNARPRIVILEGIO[4, 2]
+
+================================================================================
+CU2. CONFIGURACIÓN SEMESTRAL, CARRERAS Y MATERIAS
+================================================================================
+-- 1. Registrar nuevo periodo semestral (el 2026-2 ya existe como ID 1 en semillas):
+CREATEPERIODOS[2027, 1]
+
+-- 2. Listar periodos académicos:
+LISTARPERIODOS[*]
+
+-- 3. Registrar nueva carrera universitaria (códigos 101-104 ya están en semillas):
+CREATECARRERAS[105, Ingenieria Biomedica, BIO]
+
+-- 4. Listar carreras registradas:
+LISTARCARRERAS[*]
+
+-- 5. Registrar materia:
+CREATEMATERIAS[Sistemas Distribuidos, INF412]
+
+-- 6. Listar materias registradas:
+LISTARMATERIAS[*]
+
+-- 7. Asignar carrera a usuario (SIS a usuario 4):
+ASIGNARCARRERA[4, 1]
+
+-- 8. Asociar materia a carrera con nivel semestral (Materia 1 a Carrera 1 en Semestre 4):
+CARRERAMATERIA[1, 1, 4]
+
+================================================================================
+CU3. CARGA HORARIA BASE Y CONSULTA DE DISPONIBILIDAD
+================================================================================
+-- 1. Registrar laboratorio (con horas de apertura y cierre según nuevo esquema):
+CREATELABORATORIOS[Laboratorio de Inteligencia Artificial, 07:00, 21:30]
+
+-- 2. Listar laboratorios de la facultad:
+LISTARLABORATORIOS[*]
+
+-- 3. Crear horario fijando día, hora inicio, hora fin y laboratorio asociado (Lab 1):
+CREATEHORARIOS[JUEVES, 14:00, 16:15, 1]
+
+-- 4. Listar horarios configurados:
+LISTARHORARIOS[*]
+
+-- 5. Crear grupo académico (Grupo SI, Materia 1, Docente/Auxiliar 4, Periodo 1):
+CREATEGRUPOS[SI, 1, 4, 1]
+
+-- 6. Listar grupos académicos:
+LISTARGRUPOS[*]
+
+-- 7. Asignar grupo a horario y laboratorio (Grupo 1 a Horario 1 en Lab 1):
+ASIGNARHORARIO[1, 1, 1]
+
+-- 8. Consultar disponibilidad del Laboratorio 1:
+DISPONIBILIDAD[1, LUNES]
+DISPONIBILIDAD[1, *]
+
+================================================================================
+CU4. GESTIÓN DE RESERVAS Y RESOLUCIÓN DE CONFLICTOS
+================================================================================
+-- 1. Solicitar reserva de laboratorio (horario libre):
+CREATERESERVAS[4, 1, 2, 2026-10-28, Taller de Robotica]
+
+-- 2. Probar detección de conflicto (mismo lab, horario y fecha ya ocupada):
+CREATERESERVAS[4, 1, 2, 2026-10-28, Intento Solapado]
+(El sistema detectará conflicto y responderá con el error traducido en consola y tarjeta por email)
+
+-- 3. Listar reservas registradas:
+LISTARRESERVAS[*]
+
+-- 4. Cambiar estado de reserva (Aprobar reserva ID 1):
+ESTADORESERVA[1, APROBADA]
+
+================================================================================
+CU5. PERMUTAS TEMPORALES DE TURNO Y CHAT INTERNO
+================================================================================
+-- 1. Solicitar permuta de turno entre auxiliares (Mateo ID 4 a Alejandra ID 6 en Horario 1):
+CREATEPERMUTAS[4, 6, 1, 2026-10-30, Tramite personal en decanatura]
+
+-- 2. Listar permutas registradas:
+LISTARPERMUTAS[*]
+
+-- 3. Aceptar / Responder permuta:
+RESPONDERPERMUTA[1, ACEPTADA]
+
+-- 4. Enviar mensaje de chat interno:
+CHAT[4, 6, Hola colega quedamos confirmados con la permuta del viernes]
+
+-- 5. Ver conversación de chat entre usuarios 4 y 6:
+LISTARCHAT[4, 6]
+
+================================================================================
+CU6. INVENTARIO, INCIDENCIAS Y OBJETOS ENCONTRADOS
+================================================================================
+-- 1. Registrar ítem en inventario del Laboratorio 1:
+CREATEITEMS[1, PC-LAB1-06, PC HP EliteDesk, Computadora fila 3, BUENO]
+
+-- 2. Listar inventario de laboratorio:
+LISTARITEMS[1]
+LISTARITEMS[*]
+
+-- 3. Reportar incidencia / falla técnica (Ítem 1 por Auxiliar 4):
+CREATEINCIDENCIAS[1, 4, Teclado averiado, La tecla Enter no hace contacto]
+
+-- 4. Listar incidencias técnicas:
+LISTARINCIDENCIAS[*]
+
+-- 5. Atender y resolver incidencia (Encargado 3 atiende ticket ID 1):
+ATENDERINCIDENCIA[1, 3, Se limpio switch de membrana y funciona normal, RESUELTO]
+
+-- 6. Registrar objeto perdido encontrado en el Laboratorio 1 (por Auxiliar 4):
+CREATEOBJETOS[1, 4, Cuaderno espiral tapa dura con apuntes de Calculo I]
+
+-- 7. Listar objetos perdidos:
+LISTAROBJETOS[*]
+
+-- 8. Entregar objeto al estudiante / propietario reclamante (Alejandra ID 6):
+ENTREGAROBJETO[1, 6]
+
+================================================================================
+CU7. SUPERVISIÓN Y ASISTENCIA DE AUXILIARES
+================================================================================
+-- 1. Registrar asistencia a turno:
+CREATEASISTENCIAS[4, 1, 2026-10-14, PRESENTE]
+CREATEASISTENCIAS[4, 2, 2026-10-14, RETRASO]
+
+-- 2. Listar asistencias registradas:
+LISTARASISTENCIAS[*]
+
+================================================================================
+CU8. REPORTES Y ESTADÍSTICAS GERENCIALES
+================================================================================
+-- 1. Reporte de cumplimiento y asistencia de auxiliares (% puntualidad y faltas):
+REPORTEASISTENCIA[*]
+
+-- 2. Reporte de ocupación semanal y reservas por laboratorio:
+REPORTEOCUPACION[*]
+
+-- 3. Reporte de incidencias por laboratorio (abiertas vs resueltas):
+REPORTEINCIDENCIAS[*]
+
+-- 4. Reporte de estado físico de equipos de inventario:
+REPORTEINVENTARIO[*]
+
+-- 5. Reporte de objetos perdidos vs entregados:
+REPORTEOBJETOS[*]
+================================================================================
